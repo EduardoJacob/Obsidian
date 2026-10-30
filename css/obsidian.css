@@ -1,0 +1,41 @@
+
+/* Make all File Explorer text bold and increase font size */
+.nav-files-container .nav-folder-title {
+    font-weight: 700 !important;
+    font-size: 20px !important;
+}
+
+.nav-files-container .nav-file-title {
+    font-weight: 700 !important;
+    font-size: 15px !important;
+}
+
+/* Assign color to folders */
+.nav-folder-title[data-path="ai"] {
+    color: #006400 !important;
+	background-color: #99FF99 !important;
+}
+
+.nav-folder-title[data-path="python"] {
+    color: #FF0000 !important;
+	background-color: #FF9999 !important;
+}
+
+.nav-folder-title[data-path="knowledge"] {
+    color: #0000FF !important;
+	background-color: #9999FF !important;
+}
+
+
+/* Assign color to folder items */
+.nav-folder:has(> .nav-folder-title[data-path="ai"]) .nav-file-title {
+    color: #006400 !important;
+}
+ 
+.nav-folder:has(> .nav-folder-title[data-path="python"]) .nav-file-title {
+    color: #FF0000 !important;
+}
+ 
+.nav-folder:has(> .nav-folder-title[data-path="knowledge"]) .nav-file-title {
+    color: #0000FF !important;
+}
