@@ -1,22 +1,4 @@
 
-# set snippet ----
-# usethis::edit_rstudio_snippets()
-# Ctrl+Shift-P - Show Command Palette
-rstudiotools::setcwd()
-try( dev.off(dev.list()["RStudioGD"]),silent=T) # Clear Plots
-rm(list=ls()) # Clear Workspace
-gc()
-cat("\014") # Clear Console ctrl+L
-xfunctions::XLibrary("howler","minifunctions","rstudiotools","aitools","xfunctions")
-# xfunctions::XFunctions("howler")
-help(package="howler")
-packageDescription("howler")
-# devtools::install_github("author_name/howler", build_vignettes = TRUE, dependencies = TRUE)
-# browseVignettes(package="howler")
-# vignette(package="howler")
-# vignette("vignette-name",package="howler")
-# https://cranlogs.r-pkg.org/badges/last-month/howler
-rstudiotools::showinfo()
 
 usethis::use_git()
 #usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
