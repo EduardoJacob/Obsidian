@@ -1,0 +1,1 @@
+In artificial intelligence, inference is the production phase where a trained model applies its frozen weights to new data to generate predictions or outputs, acting as the real-world application stage compared to the studying phase of training.

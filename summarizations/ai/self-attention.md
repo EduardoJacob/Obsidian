@@ -1,0 +1,1 @@
+This note defines the Transformer's self-attention mechanism, which allows sequence tokens to dynamically weigh information from all other tokens using queries, keys, and values. It also defines Artificial General Intelligence (AGI) as human-level intelligence across broad intellectual tasks.

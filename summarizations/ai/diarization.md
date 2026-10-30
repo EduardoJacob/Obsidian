@@ -1,0 +1,1 @@
+Speaker diarization in ASR determines "who spoke when" in an audio recording, distinguishing different voices and assigning timestamps. By combining diarization with speech-to-text, systems produce speaker-labelled transcriptions for interviews and meetings using voice embeddings and clustering.

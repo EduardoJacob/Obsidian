@@ -7,22 +7,38 @@ source("ObsidianFunctions.R")
 obsidian_path = "C:/MEGA/Obsidian"
 obsidian_folders = list.dirs(obsidian_path, recursive = FALSE, full.names = TRUE)
 obsidian_folders = obsidian_folders[!grepl("^\\.", basename(obsidian_folders))]
-obsidian_folders = obsidian_folders[!basename(obsidian_folders) %in% c("Attachments", "images")]
+#obsidian_folders = obsidian_folders[!basename(obsidian_folders) %in% c("Attachments")]
+
+
+# Generate AI summarizations for all notes in Obsidian folder ----
+# Uses free Gemini model, but needs API key set in environment variable "GEMINI_API_KEY"
+for (folder in obsidian_folders) GenerateSummarizations(folder)
+
 
 # Generate Indexes for Each Folder ----
-for (folder in obsidian_folders) GenerateSimpleObsidianIndex(folder)
+for (folder in obsidian_folders) GenerateObsidianIndex(folder,include_summarizations = TRUE)
+
 
 # Remove YAML Frontmatter ----
+# ( Optional: Only use if you want to remove existing YAML frontmatter from notes before inserting new frontmatter )
 for (folder in obsidian_folders) RemoveYAMLfrontmatter(folder)
 
-# Generate YAML Frontmatter templates ----
+
+# Generate default YAML Frontmatter templates ----
+# ( or generate them manually in the yaml folder)
 for (folder in obsidian_folders) GenerateYAMLfrontmatter(folder)
 
-# Insert YAML Frontmatter ----  
+
+# Insert YAML Frontmatter ---- 
+# Only inserts frontmatter if it doesn't already exist in the note
 for (folder in obsidian_folders) InsertYAMLfrontmatter(folder)
 
-# ConvertHTMLtoMarkdown() - Use Importer Plugin in Obsidian instead
+# Converts all HTML files in html folder to markdown files
+# Needs PANDOC installed in your system
+# Better use Importer Plugin in Obsidian instead
+# ConvertHTMLtoMarkdown() 
 
+for (folder in obsidian_folders) RecomendNewTopics(folder)
 
 
 

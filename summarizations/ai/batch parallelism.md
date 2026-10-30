@@ -1,0 +1,1 @@
+LLMs use fixed, static mathematical weights during inference, acting as pre-configured calculators rather than dynamic programs. By using batching, GPUs process multiple prompts simultaneously through these constant weights, significantly reducing overhead and memory traffic for maximum efficiency.

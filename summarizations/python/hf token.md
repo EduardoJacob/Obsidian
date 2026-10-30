@@ -1,0 +1,1 @@
+Treat Hugging Face tokens like passwords by using environment variables (`HF_TOKEN`) instead of hardcoding them. Always add `.env` files to `.gitignore`, prefer read-only token scopes, and let Hugging Face libraries detect credentials automatically.

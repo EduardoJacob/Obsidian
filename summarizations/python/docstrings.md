@@ -1,0 +1,1 @@
+A docstring is a triple-quoted string placed at the beginning of a Python function, class, or module to serve as documentation. It is accessible via the `__doc__` attribute and used by IDEs, the `help()` function, and developers.

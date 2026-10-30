@@ -1,0 +1,1 @@
+LangChain is a Python and JavaScript framework that connects large language models to data, tools, and workflows. It simplifies building advanced AI applications like chatbots, agents, RAG systems, and multi-step reasoning pipelines by providing unified wrappers and components.

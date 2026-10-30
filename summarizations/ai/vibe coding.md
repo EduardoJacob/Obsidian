@@ -1,0 +1,1 @@
+Vibe coding is a programming approach where developers use natural language to describe what they want, and an AI generates the code. Instead of writing code manually, users guide, test, and iteratively refine the AI's output.

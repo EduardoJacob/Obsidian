@@ -1,0 +1,1 @@
+An AI agent is more than just an LLM with tools; it is a reasoning engine embedded in a dynamic control loop. This loop allows the model to repeatedly execute actions, observe results, and reason until a goal is achieved.

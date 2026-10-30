@@ -1,0 +1,1 @@
+Quantization reduces AI model size and memory usage by representing numerical weights with fewer bits (such as FP16, INT8, or INT4). This makes local inference faster and more efficient, typically with minimal trade-offs in accuracy.

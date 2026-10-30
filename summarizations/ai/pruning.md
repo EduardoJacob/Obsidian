@@ -1,0 +1,1 @@
+AI pruning improves efficiency by removing redundant weights, neurons, or structures from a neural network. This reduces model size and computational requirements while aiming to preserve predictive accuracy, often followed by fine-tuning to recover performance.

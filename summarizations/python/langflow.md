@@ -1,0 +1,1 @@
+Langflow is an open-source, Python-based visual framework for building and prototyping customizable AI applications. It supports agents and the Model Context Protocol without restricting your choice of LLMs or vector stores, enabling fast workflow development.

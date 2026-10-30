@@ -1,0 +1,1 @@
+Word representation converts text into learned numerical vectors via tokenisation and embeddings. This allows large language models to process language and capture semantic relationships, with modern architectures generating dynamic, context-sensitive representations depending on surrounding words.

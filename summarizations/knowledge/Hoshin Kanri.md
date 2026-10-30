@@ -1,0 +1,1 @@
+This note outlines a strategic planning framework flowing from vision to values, mission, and objectives, supported by visual diagrams illustrating the structural hierarchy of organizational strategy.

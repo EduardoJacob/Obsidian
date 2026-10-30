@@ -1,0 +1,1 @@
+In agentic AI, artifacts are standalone, persistent work products like code or documents separated from the main chat flow. They reduce cognitive load by organizing complex outputs into dedicated, easily refinable windows distinct from conversational history.

@@ -1,0 +1,1 @@
+Nodes and parameters in neural networks are distinct components: nodes are processing units acting as brain cells, while parameters are the adjustable weights and biases of connections between them. Consequently, parameter counts grow vastly faster than node counts.

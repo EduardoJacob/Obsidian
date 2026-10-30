@@ -1,40 +1,228 @@
 
+
+ConvertHTMLtoMarkdown = function() {
  
-# Generate an index of all files in the specified path for Obsidian
-GenerateSimpleObsidianIndex = function(path) {
-  # path = "C:/MEGA/Obsidian/python"
-  files = paste0("[[",
-    tools::file_path_sans_ext(
-      list.files(path, pattern = "\\.md$", recursive = FALSE, full.names = FALSE,ignore.case=T)
-      ),
-    "]]"
+  # Find HTML files
+  html_files = list.files(
+    "./html",
+    pattern = "\\.html?$",
+    full.names = TRUE,
+    recursive = FALSE,
+    ignore.case = TRUE
   )
-  N = length(files)
   
-  index = paste0("#",basename(path), ".md")
-  index_full_path = file.path(path,index)
+  # Convert HTML files to Markdown
+  for (html_file in html_files) {
+    
+    md_file = file.path(
+      "./markdown",
+      paste0(
+        tools::file_path_sans_ext(basename(html_file)),
+        ".md"
+      )
+    )
+    
+    system2(
+      "pandoc",
+      args = c(
+        "-f", "html",
+        "-t", "gfm",
+        "--wrap=none",
+        "-o", shQuote(md_file),
+        shQuote(html_file)
+      )
+    )
+    
+    cat("Converted:", basename(html_file), "\n")
+  }
+  
+  cat("\nConversion completed!\n")
+}
+
+
+GenerateObsidianIndex = function(path,include_summarizations=FALSE) { 
+  # path = "C:/MEGA/Obsidian/python"
+  files = GetObsidianNotes(path)
+  N = length(files)
+  if ( N == 0 ) {
+    message(path," does not contain markdown notes. Skipped")
+    return()
+  }
+  
+  index_full_path = GetObsidianIndex(path)
+  
+  wikilinks = paste0("[[",tools::file_path_sans_ext(basename(files)),"]]")
+ 
+  if (include_summarizations) {
+    aux_wikilinks = vector()
+    for ( i in 1:length(files) ) {
+      summarization = GetSummarizationContent(files[i])
+      aux_wikilinks = c(aux_wikilinks,wikilinks[i],summarization," ")
+    }
+    wikilinks = aux_wikilinks
+  } 
   
   label = paste0("Index created by obsidian.R at ", Sys.time())
-  files = c(label,files)
-  writeLines(files,index_full_path)
+  wikilinks = c(label,wikilinks)  
   
-  cat(readLines(index_full_path), sep = "\n")
-  message("Obsidian index ", file.path(path,index)," created with ",N," entries")
+  writeLines(wikilinks,index_full_path)
+  
+  # cat(readLines(index_full_path), sep = "\n")
+  message("Obsidian index ",index_full_path," created with ",N," entries")
 }
- 
 
-# Remove YAML frontmatter
+
+GenerateSummarizations = function(path,overwrite=FALSE,max_words=40) {
+  # path = "C:/MEGA/Obsidian/python"
+  files = GetObsidianNotes(path)
+  N = length(files)
+  if ( N == 0 ) {
+    message(path," does not contain markdown notes. Skipped")
+    return()
+  }
+  
+  output_folder = file.path("summarizations",basename(path))
+  # Create the folder if it doesn't exist
+  if (!dir.exists(output_folder)) dir.create(output_folder, recursive = F)
+  
+  for ( file in files) {
+    markdown = readLines(file,warn = FALSE,encoding = "UTF-8")
+    prompt_header = paste0("Summarize the following obsidian note. Return only one paragraph, no more then ",max_words," words:")
+    prompt = c(prompt_header,markdown)
+    prompt = paste(prompt, collapse = "\n")
+    # print(prompt)
+    output_summarization = GetSummarization(file)
+    
+    if (!file.exists(output_summarization) || overwrite) {
+      # answer = aitools::lmstudio(prompt)
+      answer = aitools::gemini(prompt,model="3.5-flash-lite")
+      answer = answer[1]
+      message("Summarization for ",output_summarization," created.")
+      message(answer)
+      writeLines(answer,output_summarization,useBytes = TRUE)
+    } else {
+      message("Summarization for ",output_summarization," already exists. Skipping.")
+    }
+    
+  }
+}
+
+
+GetSummarization = function(file) {
+  output_folder = paste0(basename(dirname(file)), "/", basename(file))
+  summarization = file.path("summarizations",output_folder)
+  return(summarization)
+}
+
+
+GetSummarizationContent = function(file) {
+  summarization = GetSummarization(file)
+  
+  content = if (file.exists(summarization)) {
+    paste(readLines(summarization, warn = FALSE), collapse = "\n")
+  } else {
+    ""
+  }
+  
+  return(content)
+}
+
+
+GenerateYAMLfrontmatter = function(path) {
+  # path = "C:/MEGA/Obsidian/python"
+  tagname = basename(path)
+  yaml_template = file.path("yaml","template.yaml")
+  yaml_file = paste0(tagname,".yaml")
+  yaml_file = file.path("yaml",yaml_file)
+  
+  # Read template
+  yaml = readLines(yaml_template, warn = FALSE)
+  
+  # Replace placeholder
+  yaml = gsub("\\$folder_name",tagname, yaml, fixed = FALSE)
+  
+  # Save YAML file
+  output_file = file.path("yaml",paste0(tagname,".yaml"))
+  writeLines(yaml, output_file)
+  message("YAML frontmatter template created: ", output_file) 
+}
+
+
+GetObsidianIndex = function(path) {
+  index = paste0("_",basename(path),".md")
+  index = file.path(path,index)
+  return( index )
+}
+
+
+GetObsidianNotes = function(path) {
+  # path = "C:/MEGA/Obsidian/python"
+  files = list.files(path, pattern = "\\.md$", recursive = FALSE, full.names = T,ignore.case=T)
+  
+  # Remove the index file itself from the list of files
+  index = GetObsidianIndex(path)
+  files = files[!grepl(index,files,fixed = TRUE)]
+  
+  return(files)
+}
+
+
+InsertYAMLfrontmatter = function(path) {
+  yaml_file = paste0(basename(path),".yaml")
+  yaml_file = file.path("yaml",yaml_file)
+  
+  # Read YAML template
+  yaml = readLines(
+    yaml_file,
+    warn = FALSE,
+    encoding = "UTF-8"
+  )
+  
+  # Get Markdown files
+  files = GetObsidianNotes(path)
+  N = length(files)
+  if ( N == 0 ) {
+    message(path," does not contain markdown notes. Skipped")
+    return()
+  }
+  
+  for (file in files) {
+    
+    # Read note
+    lines = readLines(
+      file,
+      warn = FALSE,
+      encoding = "UTF-8"
+    )
+    
+    # Skip notes that already have YAML frontmatter
+    if (length(lines) > 0 && trimws(lines[1]) == "---") {
+      message(file," already has YAML frontmatter. Skipping.")
+      next
+    }
+    
+    # Insert YAML at the beginning
+    output = c(yaml, "", lines)
+    
+    # Write modified note
+    writeLines(output,file,useBytes = TRUE)
+    
+    message("YAML frontmatter inserted in: ", file)
+  }
+  
+}
+
+
 RemoveYAMLfrontmatter = function(path) {
   # path = "C:/MEGA/Obsidian/python"
   
   # Get Markdown files
-  files = list.files(
-    path = path,
-    pattern = "\\.md$",
-    recursive = FALSE,
-    full.names = TRUE,
-    ignore.case = TRUE
-  )
+  files = GetObsidianNotes(path)
+  N = length(files)
+  if ( N == 0 ) {
+    message(path," does not contain markdown notes. Skipped")
+    return()
+  }
   
   for (file in files) {
     
@@ -76,115 +264,25 @@ RemoveYAMLfrontmatter = function(path) {
 }
 
 
-# Generate a YAML frontmatter template for the specified path
-GenerateYAMLfrontmatter = function(path) {
+RecomendNewTopics = function(path) {
   # path = "C:/MEGA/Obsidian/python"
-  tagname = basename(path)
-  yaml_template = file.path("yaml","template.yaml")
-  yaml_file = paste0(tagname,".yaml")
-  yaml_file = file.path("yaml",yaml_file)
-  
-  # Read template
-  yaml = readLines(yaml_template, warn = FALSE)
-  
-  # Replace placeholder
-  yaml = gsub("\\$folder_name",tagname, yaml, fixed = FALSE)
-  
-  # Save YAML file
-  output_file = file.path("yaml",paste0(tagname,".yaml"))
-  writeLines(yaml, output_file)
-  message("YAML frontmatter template created: ", output_file) 
-}
-
-
-# Insert YAML frontmatter into all Markdown files in the specified path
-InsertYAMLfrontmatter = function(path) {
-  yaml_file = paste0(basename(path),".yaml")
-  yaml_file = file.path("yaml",yaml_file)
-  
-  # Read YAML template
-  yaml = readLines(
-    yaml_file,
-    warn = FALSE,
-    encoding = "UTF-8"
-  )
-  
-  # Get Markdown files
-  files = list.files(
-    path = path,
-    pattern = "\\.md$",
-    recursive = FALSE,
-    full.names = TRUE,
-    ignore.case = TRUE
-  )
-  
-  for (file in files) {
-    
-    # Read note
-    lines = readLines(
-      file,
-      warn = FALSE,
-      encoding = "UTF-8"
-    )
-    
-    # Skip notes that already have YAML frontmatter
-    if (length(lines) > 0 && trimws(lines[1]) == "---") {
-      message(file," already has YAML frontmatter. Skipping.")
-      next
-    }
-    
-    # Insert YAML at the beginning
-    output = c(yaml, "", lines)
-    
-    # Write modified note
-    writeLines(output,file,useBytes = TRUE
-    )
-    
-    message("YAML frontmatter inserted in: ", file)
+  files = GetObsidianNotes(path)
+  N = length(files)
+  if ( N == 0 ) {
+    message(path," does not contain markdown notes. Skipped")
+    return()
   }
   
-}
-
-
-# Convert all HTML files in the source directory to Markdown and copy them to the vault directory
-# If needed use windows 11 power rename to all html files prior to call this function
-ConvertHTMLtoMarkdown = function() {
- 
-  # Find HTML files
-  html_files = list.files(
-    "./html",
-    pattern = "\\.html?$",
-    full.names = TRUE,
-    recursive = FALSE,
-    ignore.case = TRUE
-  )
+  topic = basename(path)
+  wikilinks = paste0("[[",tools::file_path_sans_ext(basename(files)),"]]")
   
-  # Convert HTML files to Markdown
-  for (html_file in html_files) {
-    
-    md_file = file.path(
-      "./markdown",
-      paste0(
-        tools::file_path_sans_ext(basename(html_file)),
-        ".md"
-      )
-    )
-    
-    system2(
-      "pandoc",
-      args = c(
-        "-f", "html",
-        "-t", "gfm",
-        "--wrap=none",
-        "-o", shQuote(md_file),
-        shQuote(html_file)
-      )
-    )
-    
-    cat("Converted:", basename(html_file), "\n")
-  }
-  
-  cat("\nConversion completed!\n")
+  prompt = c(
+    "I have an Obsidian vault where i am studying",topic,
+    ". my vault already contains the following notes:",wikilinks,
+    ", please recommend 3 other topics related with",topic,"so I can progress in my study. Give me only the names of the topics")
+  prompt = paste(prompt, collapse = " ")
+  answer = aitools::gemini(prompt,model="3.5-flash-lite")
+  answer = answer[1]
+  cat("Recomendations about",topic,":\n",answer)
 }
-
 

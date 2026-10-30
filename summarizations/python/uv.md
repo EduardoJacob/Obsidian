@@ -1,0 +1,1 @@
+This note highlights `uv` by Astral as an all-in-one Python tool for fast package management, virtual environments, and Python version control, complemented by Ruff for linting and formatting and pytest for testing.

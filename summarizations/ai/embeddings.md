@@ -1,0 +1,1 @@
+In AI, an embedding is not just digital data, but a learned vector representation that captures the semantic meaning of information. Unlike traditional ID numbers, similar concepts are placed close together in a high-dimensional space, enabling semantic search and AI reasoning.

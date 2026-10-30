@@ -1,0 +1,1 @@
+In Python, triple quotes are versatile string literals used to write multi-line strings, create docstrings for documentation, format long text blocks, and preserve exact spacing. Note that they are functional strings, not actual code comments.

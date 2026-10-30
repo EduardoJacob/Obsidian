@@ -1,0 +1,1 @@
+Personal Knowledge Management (PKM) is an external system for capturing, organizing, connecting, developing, and retrieving information. By using tools like Obsidian and methodologies such as Zettelkasten or PARA, you transform collected data into a useful, interconnected network of knowledge.

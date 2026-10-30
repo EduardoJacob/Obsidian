@@ -1,0 +1,1 @@
+An Automatic Speech Recognition (ASR) model converts spoken audio into text using neural networks. Used in voice assistants and transcription tools, ASR powers speech-to-text systems, differing from Text-to-Speech (TTS), which translates text into spoken audio.

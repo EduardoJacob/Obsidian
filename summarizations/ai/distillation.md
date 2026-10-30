@@ -1,0 +1,1 @@
+Knowledge distillation trains a smaller, faster AI student model to mimic a larger teacher model. While it reduces memory, hardware requirements, and costs, the distilled model typically offers slightly lower capabilities and reasoning skills compared to the original.

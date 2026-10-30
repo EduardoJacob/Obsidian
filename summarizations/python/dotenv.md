@@ -1,0 +1,1 @@
+Python manages secrets similarly to R’s `.Renviron` by using a `.env` file combined with the `python-dotenv` package and `os.getenv()`. This standard, secure practice keeps sensitive data out of your source code and works seamlessly across environments.

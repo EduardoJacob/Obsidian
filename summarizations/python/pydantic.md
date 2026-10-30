@@ -1,0 +1,1 @@
+Pydantic is a Python library that uses type hints to validate, parse, and manage structured data. It automates type checking and conversions, making it essential for safely handling data from APIs, configurations, and LLM agent workflows.

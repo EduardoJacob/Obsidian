@@ -1,0 +1,1 @@
+Modern LLM APIs use two input methods: simple text prompts and structured message prompts. Message prompts utilize roles like system, human, AI, and tools, offering superior flexibility for managing conversation history, system instructions, and tool outputs in AI applications.

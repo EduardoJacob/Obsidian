@@ -1,0 +1,1 @@
+Developed by Google in 2018, BERT is a Transformer-based NLP model that uses bidirectional context to understand word meanings. Unlike generative models like GPT, BERT excels at text analysis tasks such as sentiment analysis, semantic search, and classification.

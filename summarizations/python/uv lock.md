@@ -1,0 +1,1 @@
+The `uv lock` command resolves and freezes exact dependency versions from your `pyproject.toml` into a `uv.lock` file, ensuring a stable, reproducible environment across machines and enabling faster, reliable installations with `uv sync`.

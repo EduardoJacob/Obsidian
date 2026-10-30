@@ -1,0 +1,1 @@
+A context window represents the maximum number of tokens an AI model can process at once, including prompts and outputs. Models like gpt-oss support up to 128k tokens, though local servers often use lower default limits to save memory.

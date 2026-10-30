@@ -1,0 +1,1 @@
+To guide AI models in using tools like web search, avoid vague docstrings. Instead, use detailed descriptions specifying exact use cases and reinforce this policy in the system prompt, as models pattern-match rather than self-assess their own knowledge gaps.

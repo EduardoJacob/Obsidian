@@ -1,0 +1,1 @@
+Data models consist of three types: conceptual models define business system contents, logical models provide a technical implementation map independent of the DBMS, and physical models detail the actual database implementation using a specific DBMS.

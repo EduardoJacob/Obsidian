@@ -25,57 +25,33 @@ This report provides an overview of the R script `ObsidianFunctions.R`, which co
 
 ## Overview of Functions
 
-### 1. `GenerateSimpleObsidianIndex(path)`
-* **Purpose:** Generates a Markdown index file listing internal wiki-links (`[[Note Name]]`) for all `.md` files in a target directory.
-* **Key Steps:**
-  * Scans the directory for files with the `.md` extension (non-recursive).
-  * Formats each file name (without extension) as an Obsidian double-bracket link: `[[filename]]`.
-  * Creates or overwrites an index file named `#<folder_name>.md` within the target folder.
-  * Adds a timestamp header indicating when the index was generated.
-  * Prints a summary message detailing the number of indexed files.
+# ObsidianFunctions.R
 
----
+This script provides a collection of utility functions designed to manage, index, enrich, and process Obsidian markdown vaults, as well as handle HTML-to-markdown conversions using Pandoc .
 
-### 2. `RemoveYAMLfrontmatter(path)`
-* **Purpose:** Strips YAML frontmatter blocks (the metadata bounded by `---` lines at the start of a note) from all Markdown files in a directory.
-* **Key Steps:**
-  * Checks if a file begins with `---`.
-  * Locates the matching closing delimiter `---`.
-  * Deletes all lines within and including the delimiters, as well as leading blank lines.
-  * Preserves UTF-8 encoding when writing back the cleaned content.
-  * Skips files without YAML headers.
+## Functions
 
----
+* **`ConvertHTMLtoMarkdown`**: Scans a local `./html` directory for HTML files, converts each discovered file into GitHub-flavored Markdown using `pandoc`, and saves the outputs into a `./markdown` directory .
 
-### 3. `GenerateYAMLfrontmatter(path)`
-* **Purpose:** Creates a customized YAML template file for a given folder using a master template.
-* **Key Steps:**
-  * Identifies the target directory name (`basename(path)`).
-  * Reads a generic template located at `yaml/template.yaml`.
-  * Replaces the placeholder variable `$folder_name` with the current folder's name (commonly used for automatic tag assignment).
-  * Saves the resulting configuration to `yaml/<folder_name>.yaml`.
+* **`GenerateObsidianIndex`**: Generates a centralized index file containing wikilinks for all markdown notes within a specified Obsidian vault path, with an option to include AI-generated summarizations for each note .
 
----
+* **`GenerateSummarizations`**: Iterates through markdown notes in a given vault directory, constructs a summarization prompt for each file, queries an AI tool to generate a concise summary, and saves the output to a designated summarizations folder .
 
-### 4. `InsertYAMLfrontmatter(path)`
-* **Purpose:** Prepends folder-specific YAML frontmatter metadata to all Markdown files in a directory.
-* **Key Steps:**
-  * Reads the corresponding YAML file from `yaml/<folder_name>.yaml`.
-  * Iterates through all `.md` files in the directory.
-  * **Safety check:** Skips files that already begin with `---` to prevent duplicate frontmatter headers.
-  * Prepends the YAML header and a blank separator line to each note.
+* **`GetSummarization`**: Computes and returns the expected file path for a specific note's summarization file within the local summarizations directory structure .
 
----
+* **`GetSummarizationContent`**: Reads and returns the content of an existing summarization file for a given note if it is available, or returns an empty string if it does not yet exist .
 
-### 5. `ConvertHTMLtoMarkdown()`
-* **Purpose:** Converts local HTML documents to GitHub-Flavored Markdown (`gfm`) using **Pandoc**.
-* **Key Steps:**
-  * Searches the local `./html` directory for files ending in `.html` or `.htm`.
-  * Invokes the external CLI tool `pandoc` via `system2()`.
-  * Converts content from HTML format to Markdown with line-wrapping disabled (`--wrap=none`).
-  * Saves output `.md` files into the `./markdown` folder with matching base filenames.
+* **`GenerateYAMLfrontmatter`**: Creates a YAML frontmatter configuration file for a specific vault folder by reading and modifying a predefined template with the corresponding folder name .
 
----
+* **`GetObsidianIndex`**: Determines and returns the full file path for the index file associated with a specific Obsidian vault directory .
+
+* **`GetObsidianNotes`**: Retrieves a list of all markdown note files within a specified vault path while automatically filtering out the main index file itself .
+
+* **`InsertYAMLfrontmatter`**: Reads a YAML frontmatter template and prepends it to all markdown notes in a specified vault directory that do not already contain frontmatter .
+
+* **`RemoveYAMLfrontmatter`**: Scans markdown notes within a specified vault directory and safely strips out existing YAML frontmatter blocks along with any leading blank lines .
+
+* **`RecomendNewTopics`**: Gathers existing note titles from an Obsidian vault path, prompts an AI model to analyze current study topics, and outputs 3 recommended new study topics to help progress learning .
 
 
 

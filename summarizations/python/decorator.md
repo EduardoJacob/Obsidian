@@ -1,0 +1,1 @@
+Python decorators are powerful, reusable wrappers that modify or extend function behavior without altering their core code. Applied cleanly using the `@` syntax, they are ideal for cross-cutting concerns like logging, authentication, caching, and timing.

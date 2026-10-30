@@ -1,0 +1,1 @@
+Artificial General Intelligence (AGI) is a hypothetical AI with human-level cognitive flexibility across diverse tasks. Unlike current Narrow AI, AGI can generalize, reason, and learn new skills. While modern frontier models show promise, true AGI remains unachieved.

@@ -1,0 +1,1 @@
+TOML is a human-readable configuration file format used in modern Python projects. Specifically, the `pyproject.toml` file serves as the standard location for storing project metadata, dependencies, and tool settings for utilities like uv, ruff, and pytest.

@@ -1,0 +1,1 @@
+A tool call is an LLM's model-level output requesting an action, whereas the Model Context Protocol (MCP) is a system-level standard for connecting, discovering, and executing those tools across external systems.

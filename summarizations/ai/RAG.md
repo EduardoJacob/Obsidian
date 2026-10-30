@@ -1,0 +1,1 @@
+Retrieval-Augmented Generation (RAG) allows AI models to answer questions using external documents rather than training data alone. By chunking text, creating semantic embeddings, and utilizing vector databases, RAG provides relevant context to an LLM, enabling accurate, source-backed answers for personal knowledge bases.

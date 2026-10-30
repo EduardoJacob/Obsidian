@@ -1,0 +1,1 @@
+A model with a 512-token input limit can process at most 512 tokens—including words, subwords, and special tokens—in a single sequence. This fixed limit exists because transformers learn specific positional embeddings during training.
