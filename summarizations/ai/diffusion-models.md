@@ -1,0 +1,1 @@
+Diffusion models are AI systems that generate new data, like images, by learning to reverse a process that gradually adds random noise. They efficiently create structured, novel content by progressively denoising random inputs, often utilizing compressed latent spaces.

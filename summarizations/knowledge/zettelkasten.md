@@ -1,0 +1,1 @@
+The Zettelkasten is a personal knowledge management system that prioritizes connecting atomic, single-idea notes over mere storage. By linking these concepts together, users generate new insights, overcome writer's block, and effortlessly produce written content.

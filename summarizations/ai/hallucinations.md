@@ -1,0 +1,1 @@
+AI hallucinations occur when language models generate convincing yet fabricated information because they predict plausible text rather than verifying facts. These errors can be reduced using techniques like RAG, web search, and proper prompt engineering.

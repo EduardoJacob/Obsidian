@@ -44,10 +44,6 @@ GenerateObsidianIndex = function(path,include_summarizations=FALSE) {
   # path = "C:/MEGA/Obsidian/python"
   files = GetObsidianNotes(path)
   N = length(files)
-  if ( N == 0 ) {
-    message(path," does not contain markdown notes. Skipped")
-    return()
-  }
   
   index_full_path = GetObsidianIndex(path)
   
@@ -75,11 +71,6 @@ GenerateObsidianIndex = function(path,include_summarizations=FALSE) {
 GenerateSummarizations = function(path,overwrite=FALSE,max_words=40) {
   # path = "C:/MEGA/Obsidian/python"
   files = GetObsidianNotes(path)
-  N = length(files)
-  if ( N == 0 ) {
-    message(path," does not contain markdown notes. Skipped")
-    return()
-  }
   
   output_folder = file.path("summarizations",basename(path))
   # Create the folder if it doesn't exist
@@ -155,9 +146,10 @@ GetObsidianIndex = function(path) {
 }
 
 
-GetObsidianNotes = function(path) {
+GetObsidianNotes = function(path,include_index=FALSE) {
   # path = "C:/MEGA/Obsidian/python"
   files = list.files(path, pattern = "\\.md$", recursive = FALSE, full.names = T,ignore.case=T)
+  if (include_index) return(files)
   
   # Remove the index file itself from the list of files
   index = GetObsidianIndex(path)
@@ -179,12 +171,7 @@ InsertYAMLfrontmatter = function(path) {
   )
   
   # Get Markdown files
-  files = GetObsidianNotes(path)
-  N = length(files)
-  if ( N == 0 ) {
-    message(path," does not contain markdown notes. Skipped")
-    return()
-  }
+  files = GetObsidianNotes(path,include_index = TRUE)
   
   for (file in files) {
     
@@ -217,12 +204,7 @@ RemoveYAMLfrontmatter = function(path) {
   # path = "C:/MEGA/Obsidian/python"
   
   # Get Markdown files
-  files = GetObsidianNotes(path)
-  N = length(files)
-  if ( N == 0 ) {
-    message(path," does not contain markdown notes. Skipped")
-    return()
-  }
+  files = GetObsidianNotes(path,include_index = TRUE)
   
   for (file in files) {
     
@@ -264,14 +246,14 @@ RemoveYAMLfrontmatter = function(path) {
 }
 
 
-RecomendNewTopics = function(path) {
+RecomendNewTopics = function(path,num_topics=3) {
   # path = "C:/MEGA/Obsidian/python"
   files = GetObsidianNotes(path)
-  N = length(files)
-  if ( N == 0 ) {
-    message(path," does not contain markdown notes. Skipped")
-    return()
-  }
+  # N = length(files)
+  # if ( N == 0 ) {
+  #   message(path," does not contain markdown notes. Skipped")
+  #   return()
+  # }
   
   topic = basename(path)
   wikilinks = paste0("[[",tools::file_path_sans_ext(basename(files)),"]]")
@@ -279,10 +261,44 @@ RecomendNewTopics = function(path) {
   prompt = c(
     "I have an Obsidian vault where i am studying",topic,
     ". my vault already contains the following notes:",wikilinks,
-    ", please recommend 3 other topics related with",topic,"so I can progress in my study. Give me only the names of the topics")
+    ", please recommend",num_topics,"other topics related with",topic,"so I can progress in my study. Give me only the names of the topics")
   prompt = paste(prompt, collapse = " ")
   answer = aitools::gemini(prompt,model="3.5-flash-lite")
   answer = answer[1]
   cat("Recomendations about",topic,":\n",answer)
 }
+
+
+ExplainAndSaveNewNoteToObsidian = function(prompt,new_note) {
+  # prompt = "Explain Zettelkasten Method"
+  # new_note = "knowledge/zettelkasten.md"
+  
+  answer = aitools::gemini(prompt,model="3.5-flash-lite")
+  answer = answer[1]
+  
+  # Create the folder if it doesn't exist
+  # note_folder = dirname(new_note)
+  # if (!dir.exists(note_folder)) dir.create(note_folder, recursive = TRUE)
+  
+  # Save the answer to the new note
+  new_note = file.path(obsidian_path,new_note)
+  writeLines(answer,new_note,useBytes = TRUE)
+  
+  message("New note created: ", new_note)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

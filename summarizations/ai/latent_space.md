@@ -1,0 +1,1 @@
+Latent space is a multi-dimensional mathematical map where AI organizes hidden concepts. Similar data points cluster together, allowing generative AI to create new content by navigating and combining coordinates within this hidden universe.
