@@ -21,11 +21,6 @@ for (folder in obsidian_folders) GenerateYAMLfrontmatter(folder)
 
 
 
-
-
-
-
-
 # Generate AI summarizations for all notes in Obsidian folder ----
 # Uses free Gemini model, but needs API key set in environment variable "GEMINI_API_KEY"
 for (folder in obsidian_folders) GenerateSummarizations(folder)
@@ -42,11 +37,12 @@ for (folder in obsidian_folders) InsertYAMLfrontmatter(folder)
 # Better use Importer Plugin in Obsidian instead
 # ConvertHTMLtoMarkdown() 
 
-for (folder in obsidian_folders) RecomendNewTopics(folder,num_topics = 4)
+for (folder in obsidian_folders) RecomendNewTopics(folder,num_topics = 5)
 
 # ExplainAndSaveNewNoteToObsidian("Explain Zettelkasten Method","knowledge/zettelkasten.md")
 # ExplainAndSaveNewNoteToObsidian("Explain Latent Space in the context of Ai","ai/latent_space.md")
-ExplainAndSaveNewNoteToObsidian("Explain Vector Databases in the context of Ai","ai/vector_databases.md")
+# ExplainAndSaveNewNoteToObsidian("Explain Vector Databases in the context of Ai","ai/vector_databases.md")
+ExplainAndSaveNewNoteToObsidian("Explain transformer architecture in the context of Ai","ai/transformers.md")
 
 
 

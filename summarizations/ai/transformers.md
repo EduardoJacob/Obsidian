@@ -1,0 +1,1 @@
+Introduced in 2017 via "Attention Is All You Need," the Transformer architecture revolutionized AI by replacing sequential reading with parallel self-attention. This breakthrough enables massive computing power, deep contextual understanding, and universal application across text, images, and biology.

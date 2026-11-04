@@ -140,7 +140,8 @@ GenerateYAMLfrontmatter = function(path) {
 
 
 GetObsidianIndex = function(path) {
-  index = paste0("_",basename(path),".md")
+  # index = paste0("_",basename(path),".md")
+  index = paste0(basename(path),".md")
   index = file.path(path,index)
   return( index )
 }

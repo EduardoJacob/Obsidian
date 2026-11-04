@@ -1,0 +1,1 @@
+Unlike traditional databases that rely on exact matches, vector databases store and query AI-generated numerical vectors based on meaning and mathematical proximity. They enable applications like semantic search, recommendations, and RAG by providing AI with long-term memory.
