@@ -40,6 +40,25 @@ ConvertHTMLtoMarkdown = function() {
 }
 
 
+ExplainAndSaveNewNoteToObsidian = function(prompt,new_note) {
+  # prompt = "Explain Zettelkasten Method"
+  # new_note = "knowledge/zettelkasten.md"
+  
+  answer = aitools::gemini(prompt,model="3.5-flash-lite")
+  answer = answer[1]
+  
+  # Create the folder if it doesn't exist
+  # note_folder = dirname(new_note)
+  # if (!dir.exists(note_folder)) dir.create(note_folder, recursive = TRUE)
+  
+  # Save the answer to the new note
+  new_note = file.path(obsidian_path,new_note)
+  writeLines(answer,new_note,useBytes = TRUE)
+  
+  message("New note created: ", new_note)
+}
+
+
 GenerateObsidianIndex = function(path,include_summarizations=FALSE) { 
   # path = "C:/MEGA/Obsidian/python"
   files = GetObsidianNotes(path)
@@ -99,26 +118,6 @@ GenerateSummarizations = function(path,overwrite=FALSE,max_words=40) {
 }
 
 
-GetSummarization = function(file) {
-  output_folder = paste0(basename(dirname(file)), "/", basename(file))
-  summarization = file.path("summarizations",output_folder)
-  return(summarization)
-}
-
-
-GetSummarizationContent = function(file) {
-  summarization = GetSummarization(file)
-  
-  content = if (file.exists(summarization)) {
-    paste(readLines(summarization, warn = FALSE), collapse = "\n")
-  } else {
-    ""
-  }
-  
-  return(content)
-}
-
-
 GenerateYAMLfrontmatter = function(path) {
   # path = "C:/MEGA/Obsidian/python"
   tagname = basename(path)
@@ -160,6 +159,41 @@ GetObsidianNotes = function(path,include_index=FALSE) {
 }
 
 
+GetSummarization = function(file) {
+  output_folder = paste0(basename(dirname(file)), "/", basename(file))
+  summarization = file.path("summarizations",output_folder)
+  return(summarization)
+}
+
+
+GetSummarizationContent = function(file) {
+  summarization = GetSummarization(file)
+  
+  content = if (file.exists(summarization)) {
+    paste(readLines(summarization, warn = FALSE), collapse = "\n")
+  } else {
+    ""
+  }
+  
+  return(content)
+}
+
+
+InsertBlankLine = function(path) {
+  
+  # Get Markdown files
+  files = GetObsidianNotes(path,include_index = TRUE)
+  
+  for (file in files) {
+    # Appends a blank line
+    cat("\n", file = file, append = TRUE)
+    
+    message("Blank Line inserted in: ", file)
+  }
+  
+}
+
+
 InsertYAMLfrontmatter = function(path) {
   yaml_file = paste0(basename(path),".yaml")
   yaml_file = file.path("yaml",yaml_file)
@@ -198,6 +232,29 @@ InsertYAMLfrontmatter = function(path) {
     message("YAML frontmatter inserted in: ", file)
   }
   
+}
+
+
+RecomendNewTopics = function(path,num_topics=3) {
+  # path = "C:/MEGA/Obsidian/python"
+  files = GetObsidianNotes(path)
+  # N = length(files)
+  # if ( N == 0 ) {
+  #   message(path," does not contain markdown notes. Skipped")
+  #   return()
+  # }
+  
+  topic = basename(path)
+  wikilinks = paste0("[[",tools::file_path_sans_ext(basename(files)),"]]")
+  
+  prompt = c(
+    "I have an Obsidian vault where i am studying",topic,
+    ". my vault already contains the following notes:",wikilinks,
+    ", please recommend",num_topics,"other topics related with",topic,"so I can progress in my study. Give me only the names of the topics")
+  prompt = paste(prompt, collapse = " ")
+  answer = aitools::gemini(prompt,model="3.5-flash-lite")
+  answer = answer[1]
+  cat("Recomendations about",topic,":\n",answer)
 }
 
 
@@ -245,61 +302,4 @@ RemoveYAMLfrontmatter = function(path) {
   }
   
 }
-
-
-RecomendNewTopics = function(path,num_topics=3) {
-  # path = "C:/MEGA/Obsidian/python"
-  files = GetObsidianNotes(path)
-  # N = length(files)
-  # if ( N == 0 ) {
-  #   message(path," does not contain markdown notes. Skipped")
-  #   return()
-  # }
-  
-  topic = basename(path)
-  wikilinks = paste0("[[",tools::file_path_sans_ext(basename(files)),"]]")
-  
-  prompt = c(
-    "I have an Obsidian vault where i am studying",topic,
-    ". my vault already contains the following notes:",wikilinks,
-    ", please recommend",num_topics,"other topics related with",topic,"so I can progress in my study. Give me only the names of the topics")
-  prompt = paste(prompt, collapse = " ")
-  answer = aitools::gemini(prompt,model="3.5-flash-lite")
-  answer = answer[1]
-  cat("Recomendations about",topic,":\n",answer)
-}
-
-
-ExplainAndSaveNewNoteToObsidian = function(prompt,new_note) {
-  # prompt = "Explain Zettelkasten Method"
-  # new_note = "knowledge/zettelkasten.md"
-  
-  answer = aitools::gemini(prompt,model="3.5-flash-lite")
-  answer = answer[1]
-  
-  # Create the folder if it doesn't exist
-  # note_folder = dirname(new_note)
-  # if (!dir.exists(note_folder)) dir.create(note_folder, recursive = TRUE)
-  
-  # Save the answer to the new note
-  new_note = file.path(obsidian_path,new_note)
-  writeLines(answer,new_note,useBytes = TRUE)
-  
-  message("New note created: ", new_note)
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

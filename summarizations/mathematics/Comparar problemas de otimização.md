@@ -1,0 +1,1 @@
+Maximizar o volume de uma caixa aberta com superfície fixa e minimizar sua superfície com volume fixo são problemas matemáticos distintos, mas formam um par dual de otimização cujas soluções ótimas geométricas são perfeitamente equivalentes.

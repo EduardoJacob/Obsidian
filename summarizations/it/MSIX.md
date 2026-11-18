@@ -1,0 +1,1 @@
+Traditional MSI installations use global system directories and can leave behind debris, while modern MSIX packages run in isolated containers for clean removals. MSIX apps appear in Windows Settings rather than the legacy Control Panel.

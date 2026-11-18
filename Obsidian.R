@@ -11,15 +11,19 @@ obsidian_folders = obsidian_folders[!grepl("^\\_", basename(obsidian_folders))]
 #obsidian_folders = obsidian_folders[!basename(obsidian_folders) %in% c("Attachments")]
 
 # Rare operations ----
-
 # Remove YAML Frontmatter ----
 # ( Optional: Only use if you want to remove existing YAML frontmatter from notes before inserting new frontmatter )
-for (folder in obsidian_folders) RemoveYAMLfrontmatter(folder)
+# for (folder in obsidian_folders) RemoveYAMLfrontmatter(folder)
+
+
+
+
+
+# Systematic Operations
+
 # Generate default YAML Frontmatter templates ----
 # ( or generate them manually in the yaml folder)
 for (folder in obsidian_folders) GenerateYAMLfrontmatter(folder)
-
-
 
 # Generate AI summarizations for all notes in Obsidian folder ----
 # Uses free Gemini model, but needs API key set in environment variable "GEMINI_API_KEY"
@@ -37,12 +41,15 @@ for (folder in obsidian_folders) InsertYAMLfrontmatter(folder)
 # Better use Importer Plugin in Obsidian instead
 # ConvertHTMLtoMarkdown() 
 
+# Append a blank line to the end of each note in Obsidian folder in order to force refresh of the note in Obsidian
+for (folder in obsidian_folders) InsertBlankLine(folder)
+
 for (folder in obsidian_folders) RecomendNewTopics(folder,num_topics = 5)
 
 # ExplainAndSaveNewNoteToObsidian("Explain Zettelkasten Method","knowledge/zettelkasten.md")
 # ExplainAndSaveNewNoteToObsidian("Explain Latent Space in the context of Ai","ai/latent_space.md")
 # ExplainAndSaveNewNoteToObsidian("Explain Vector Databases in the context of Ai","ai/vector_databases.md")
-ExplainAndSaveNewNoteToObsidian("Explain transformer architecture in the context of Ai","ai/transformers.md")
+# ExplainAndSaveNewNoteToObsidian("Explain transformer architecture in the context of Ai","ai/transformers.md")
 
 
 

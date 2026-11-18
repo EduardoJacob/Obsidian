@@ -1,0 +1,1 @@
+This note provides a comprehensive reference table comparing major global AI providers—including OpenAI, Anthropic, Google, and DeepSeek—detailing their flagship, reasoning, and smaller model families, alongside key ecosystem distinctions and a recommended focus list.

@@ -1,0 +1,1 @@
+The harmonic series, formed by the reciprocals of natural numbers, gets its name from ancient Greek studies of musical string lengths and natural harmonics. Despite terms tending to zero, this divergent mathematical series shares its name purely through historical association.

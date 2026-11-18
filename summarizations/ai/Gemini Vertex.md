@@ -1,0 +1,1 @@
+The Gemini Vertex API provides enterprises access to Google’s multimodal AI models via Google Cloud. It offers robust security, data privacy where prompts are never used for training, compliance standards, and seamless integration with the Google Cloud ecosystem.

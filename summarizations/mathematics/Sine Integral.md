@@ -1,0 +1,1 @@
+The sine integral, designated as *integral seno* in Portuguese, is a special non-elementary mathematical function defined by $\operatorname{Si}(x)=\int_0^x \frac{\sin t}{t}\,dt$. It is widely used in signal processing, wave propagation, and Fourier analysis.

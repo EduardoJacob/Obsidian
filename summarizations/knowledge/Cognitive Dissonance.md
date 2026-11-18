@@ -1,0 +1,1 @@
+Cognitive dissonance is the mental discomfort caused by conflicting beliefs and behaviors. Instead of changing their actions to resolve this tension, people often alter their interpretation of reality through rationalization, self-justification, or by rejecting contradictory information.
