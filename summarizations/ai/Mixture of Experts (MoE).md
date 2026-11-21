@@ -1,0 +1,1 @@
+Mixture of Experts (MoE) is a machine learning architecture that uses a router to send each piece of data to only a few specialized sub-networks, enabling massive model scaling while keeping inference fast and computationally efficient.

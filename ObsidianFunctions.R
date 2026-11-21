@@ -52,19 +52,19 @@ ExplainAndSaveNewNoteToObsidian = function(prompt,new_note) {
   # if (!dir.exists(note_folder)) dir.create(note_folder, recursive = TRUE)
   
   # Save the answer to the new note
-  new_note = file.path(obsidian_path,new_note)
+  new_note = file.path(obsidian_folder,new_note)
   writeLines(answer,new_note,useBytes = TRUE)
   
   message("New note created: ", new_note)
 }
 
 
-GenerateObsidianIndex = function(path,include_summarizations=FALSE) { 
-  # path = "C:/MEGA/Obsidian/python"
-  files = GetObsidianNotes(path)
+GenerateObsidianIndex = function(folder,include_summarizations=FALSE) { 
+  # folder = "C:/MEGA/Obsidian/python"
+  files = GetObsidianNotes(folder)
   N = length(files)
   
-  index_full_path = GetObsidianIndex(path)
+  index_full_folder = GetObsidianIndex(folder)
   
   wikilinks = paste0("[[",tools::file_path_sans_ext(basename(files)),"]]")
  
@@ -80,18 +80,83 @@ GenerateObsidianIndex = function(path,include_summarizations=FALSE) {
   label = paste0("Index created by obsidian.R at ", Sys.time())
   wikilinks = c(label,wikilinks)  
   
-  writeLines(wikilinks,index_full_path)
+  writeLines(wikilinks,index_full_folder)
   
-  # cat(readLines(index_full_path), sep = "\n")
-  message("Obsidian index ",index_full_path," created with ",N," entries")
+  # cat(readLines(index_full_folder), sep = "\n")
+  message("Obsidian index ",index_full_folder," created with ",N," entries")
 }
 
 
-GenerateSummarizations = function(path,overwrite=FALSE,max_words=40) {
-  # path = "C:/MEGA/Obsidian/python"
-  files = GetObsidianNotes(path)
+GeneratePDF = function(folder) {
+  # folder = "C:/MEGA/Obsidian/python"
+  markdown = file.path("markdown",paste0(basename(folder),".md"))
+  pdf = file.path("pdf",paste0(basename(folder),".pdf"))
   
-  output_folder = file.path("summarizations",basename(path))
+  pandoc_available = rmarkdown::pandoc_available()
+  if (!pandoc_available) {
+    message("Pandoc is not available. Please install Pandoc to generate PDF.")
+    return()
+  }
+  tinytext_available = tinytex::is_tinytex()
+  if (!tinytext_available) {
+    # install.packages("tinytex")
+    # tinytex::install_tinytex()
+    message("TinyTeX is not available. Please install TinyTeX to generate PDF.")
+    return()
+  }
+  # xelatex_available = tinytex::tlmgr_search("xelatex")
+  
+  message("Generating PDF: ", pdf) 
+  
+  files = list.files(folder,pattern = "\\.md$",full.names = TRUE)
+  
+  content = unlist(lapply(files, function(f) {
+    c(
+      "\\newpage",
+      readLines(f, warn = FALSE)
+    )
+  }))
+  
+  writeLines(content,markdown)
+  
+  # Inject YAML Header for PDF output
+  yaml = c(
+    "---",
+    "title: Generated from RStudio",
+    "output:",
+    "  pdf_document:",
+    "    latex_engine: xelatex",
+    "header-includes:",
+    "  - \\usepackage{graphicx}",
+    "  - \\graphicspath{{C:/MEGA/Obsidian/_attachments/}}",
+    "---",
+    ""
+  )
+  
+  markdown_content = readLines(markdown, warn = FALSE)
+  
+  writeLines(c(yaml, markdown_content),markdown)
+  
+  rmarkdown::render(
+    markdown,
+    output_format = rmarkdown::pdf_document(
+      latex_engine = "xelatex",
+      extra_dependencies = NULL
+    ),
+    output_dir = "pdf",
+    quiet = TRUE,
+    envir = new.env()
+  )
+  
+  
+}
+
+
+GenerateSummarizations = function(folder,overwrite=FALSE,max_words=40) {
+  # folder = "C:/MEGA/Obsidian/python"
+  files = GetObsidianNotes(folder)
+  
+  output_folder = file.path("summarizations",basename(folder))
   # Create the folder if it doesn't exist
   if (!dir.exists(output_folder)) dir.create(output_folder, recursive = F)
   
@@ -118,9 +183,9 @@ GenerateSummarizations = function(path,overwrite=FALSE,max_words=40) {
 }
 
 
-GenerateYAMLfrontmatter = function(path) {
-  # path = "C:/MEGA/Obsidian/python"
-  tagname = basename(path)
+GenerateYAMLfrontmatter = function(folder) {
+  # folder = "C:/MEGA/Obsidian/python"
+  tagname = basename(folder)
   yaml_template = file.path("yaml","template.yaml")
   yaml_file = paste0(tagname,".yaml")
   yaml_file = file.path("yaml",yaml_file)
@@ -138,21 +203,21 @@ GenerateYAMLfrontmatter = function(path) {
 }
 
 
-GetObsidianIndex = function(path) {
-  # index = paste0("_",basename(path),".md")
-  index = paste0(basename(path),".md")
-  index = file.path(path,index)
+GetObsidianIndex = function(folder) {
+  # index = paste0("_",basename(folder),".md")
+  index = paste0(basename(folder),".md")
+  index = file.path(folder,index)
   return( index )
 }
 
 
-GetObsidianNotes = function(path,include_index=FALSE) {
-  # path = "C:/MEGA/Obsidian/python"
-  files = list.files(path, pattern = "\\.md$", recursive = FALSE, full.names = T,ignore.case=T)
+GetObsidianNotes = function(folder,include_index=FALSE) {
+  # folder = "C:/MEGA/Obsidian/python"
+  files = list.files(folder, pattern = "\\.md$", recursive = FALSE, full.names = T,ignore.case=T)
   if (include_index) return(files)
   
   # Remove the index file itself from the list of files
-  index = GetObsidianIndex(path)
+  index = GetObsidianIndex(folder)
   files = files[!grepl(index,files,fixed = TRUE)]
   
   return(files)
@@ -179,10 +244,10 @@ GetSummarizationContent = function(file) {
 }
 
 
-InsertBlankLine = function(path) {
+InsertBlankLine = function(folder) {
   
   # Get Markdown files
-  files = GetObsidianNotes(path,include_index = TRUE)
+  files = GetObsidianNotes(folder,include_index = TRUE)
   
   for (file in files) {
     # Appends a blank line
@@ -194,8 +259,8 @@ InsertBlankLine = function(path) {
 }
 
 
-InsertYAMLfrontmatter = function(path) {
-  yaml_file = paste0(basename(path),".yaml")
+InsertYAMLfrontmatter = function(folder) {
+  yaml_file = paste0(basename(folder),".yaml")
   yaml_file = file.path("yaml",yaml_file)
   
   # Read YAML template
@@ -206,7 +271,7 @@ InsertYAMLfrontmatter = function(path) {
   )
   
   # Get Markdown files
-  files = GetObsidianNotes(path,include_index = TRUE)
+  files = GetObsidianNotes(folder,include_index = TRUE)
   
   for (file in files) {
     
@@ -235,16 +300,16 @@ InsertYAMLfrontmatter = function(path) {
 }
 
 
-RecomendNewTopics = function(path,num_topics=3) {
-  # path = "C:/MEGA/Obsidian/python"
-  files = GetObsidianNotes(path)
+RecommendNewTopics = function(folder,num_topics=3) {
+  # folder = "C:/MEGA/Obsidian/python"
+  files = GetObsidianNotes(folder)
   # N = length(files)
   # if ( N == 0 ) {
-  #   message(path," does not contain markdown notes. Skipped")
+  #   message(folder," does not contain markdown notes. Skipped")
   #   return()
   # }
   
-  topic = basename(path)
+  topic = basename(folder)
   wikilinks = paste0("[[",tools::file_path_sans_ext(basename(files)),"]]")
   
   prompt = c(
@@ -258,11 +323,11 @@ RecomendNewTopics = function(path,num_topics=3) {
 }
 
 
-RemoveYAMLfrontmatter = function(path) {
-  # path = "C:/MEGA/Obsidian/python"
+RemoveYAMLfrontmatter = function(folder) {
+  # folder = "C:/MEGA/Obsidian/python"
   
   # Get Markdown files
-  files = GetObsidianNotes(path,include_index = TRUE)
+  files = GetObsidianNotes(folder,include_index = TRUE)
   
   for (file in files) {
       

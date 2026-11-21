@@ -1,0 +1,1 @@
+Few-shot prompting improves AI accuracy and formatting by providing a few examples of a task within the prompt before asking for the final output, leveraging in-context learning without needing model fine-tuning.

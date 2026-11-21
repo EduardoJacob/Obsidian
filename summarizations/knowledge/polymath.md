@@ -1,0 +1,1 @@
+A polymath, or "Renaissance person," is an individual who achieves deep mastery in multiple distinct disciplines. Driven by intense curiosity, polymaths use cross-disciplinary knowledge and pattern recognition to solve complex problems and drive unique breakthroughs.

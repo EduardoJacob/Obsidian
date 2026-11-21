@@ -44,35 +44,17 @@ for (folder in obsidian_folders) InsertYAMLfrontmatter(folder)
 # Append a blank line to the end of each note in Obsidian folder in order to force refresh of the note in Obsidian
 for (folder in obsidian_folders) InsertBlankLine(folder)
 
-for (folder in obsidian_folders) RecomendNewTopics(folder,num_topics = 5)
+for (folder in obsidian_folders) RecommendNewTopics(folder,num_topics = 5)
 
 # ExplainAndSaveNewNoteToObsidian("Explain Zettelkasten Method","knowledge/zettelkasten.md")
 # ExplainAndSaveNewNoteToObsidian("Explain Latent Space in the context of Ai","ai/latent_space.md")
 # ExplainAndSaveNewNoteToObsidian("Explain Vector Databases in the context of Ai","ai/vector_databases.md")
 # ExplainAndSaveNewNoteToObsidian("Explain transformer architecture in the context of Ai","ai/transformers.md")
+# ExplainAndSaveNewNoteToObsidian("Explain few-shot prompting in the context of Ai","ai/few-shot prompting.md")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Generating PDF files for all notes in Obsidian folder
+# It's better to use Obsidian plugin
+# for (folder in obsidian_folders) GeneratePDF(folder)
 
 
 

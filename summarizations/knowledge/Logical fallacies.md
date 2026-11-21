@@ -1,0 +1,1 @@
+Logical fallacies weaken arguments through structural or content flaws. They are categorized into formal fallacies, which are logical structural errors, and informal fallacies, which include fallacies of relevance, presumption, weak induction, and ambiguity like circular reasoning.
