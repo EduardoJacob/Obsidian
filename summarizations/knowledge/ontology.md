@@ -1,0 +1,1 @@
+Ontology is the branch of metaphysics that studies being, existence, and reality. It investigates what fundamentally exists, categorizing reality into types such as physical matter, abstract objects, and universals, while exploring concepts like identity, persistence, and possible worlds.

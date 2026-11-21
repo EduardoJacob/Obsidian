@@ -1,0 +1,1 @@
+A Virtual Private Server (VPS) is a remote, always-on virtual computer hosted in a data center. Offering dedicated resources, root access, and a public IP, a VPS is ideal for web hosting, running applications, and automation tasks.

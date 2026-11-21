@@ -1,0 +1,1 @@
+Dropshipping é um modelo de comércio eletrónico onde vende produtos sem stock próprio. Você atua como intermediário: o cliente compra, você encomenda ao fornecedor e este envia diretamente. O lucro é a diferença entre os preços.

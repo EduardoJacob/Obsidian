@@ -1,0 +1,1 @@
+Holism is the philosophical and scientific concept that complex systems must be understood as unified wholes rather than isolated parts, because systems possess emergent properties greater than the sum of their individual components.

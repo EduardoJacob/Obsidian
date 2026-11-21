@@ -1,0 +1,1 @@
+A metaphor is a figure of speech that directly compares two unrelated things by stating one is the other, unlike a simile which uses "like" or "as." Writers use metaphors to add clarity, conciseness, and emotional impact to complex ideas.

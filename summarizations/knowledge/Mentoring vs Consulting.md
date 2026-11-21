@@ -1,0 +1,1 @@
+Mentoring focuses on long-term personal development and building a mentee's independent problem-solving capabilities through guidance. Conversely, consulting is project-based, providing specialized expertise to analyze and solve specific organizational problems directly. Both roles can also complement each other.

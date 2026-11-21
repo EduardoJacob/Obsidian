@@ -265,40 +265,19 @@ RemoveYAMLfrontmatter = function(path) {
   files = GetObsidianNotes(path,include_index = TRUE)
   
   for (file in files) {
-    
-    # Read the note
-    lines = readLines(file, warn = FALSE, encoding = "UTF-8")
-    
-    # Check whether the note starts with YAML frontmatter
-    if (length(lines) >= 2 && identical(trimws(lines[1]), "---")) {
       
-      # Find the closing delimiter
-      closing = which(
-        trimws(lines[-1]) == "---"
-      ) + 1L
+      lines = readLines(file, warn = FALSE)
       
-      if (length(closing) > 0) {
-        
-        # Remove the YAML block, including delimiters
-        lines = lines[-seq_len(closing[1])]
-        
-        # Remove blank lines at the beginning
-        while (length(lines) > 0 && trimws(lines[1]) == "") {
-          lines = lines[-1]
-        }
-        
-        # Write the modified note
-        writeLines(
-          lines,
-          file,
-          useBytes = TRUE
-        )
-        
-        message("YAML frontmatter removed from: ", file)
-      } 
-    } else {
-      message("No YAML frontmatter found in: ", file)
-    }
+      i = which(lines == "<!-- END -->")[1]
+      
+      if (!is.na(i)) {
+        message("Removing YAML frontmatter from: ", file)
+        lines = lines[(i + 1):length(lines)]
+        writeLines(lines,file)
+      } else {
+        message("No YAML frontmatter found in: ", file)
+      }
+       
   }
   
 }

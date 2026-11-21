@@ -1,0 +1,1 @@
+Vector databases store AI-generated embeddings to enable semantic search based on meaning rather than exact keywords. By measuring mathematical proximity, they allow AI models to efficiently retrieve relevant data, powering applications like RAG, recommendations, and long-term memory.

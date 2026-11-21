@@ -1,0 +1,1 @@
+This note categorizes and defines key figures of speech into groups including comparison, contrast, exaggeration, association, and sound. Examples are provided for each rhetorical device—such as metaphor, simile, irony, hyperbole, and alliteration—to illustrate their literary functions.

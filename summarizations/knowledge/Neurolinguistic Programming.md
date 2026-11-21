@@ -1,0 +1,1 @@
+Neuro-Linguistic Programming (NLP) is a pseudoscientific 1970s approach linking neurology, language, and learned behavior to achieve life goals. Despite widespread popularity in self-help and coaching, mainstream science largely discredits it due to a lack of empirical evidence.

@@ -1,0 +1,1 @@
+The Feynman Technique is a four-step learning method that involves explaining a concept in simple, jargon-free language as if teaching a beginner. This active process exposes gaps in your understanding, forcing deeper comprehension and retention.

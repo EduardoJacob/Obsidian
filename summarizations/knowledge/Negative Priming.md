@@ -1,0 +1,1 @@
+Negative priming occurs when your reaction time slows because your brain must actively overcome the suppression it previously applied to ignore that same stimulus, proving that selective attention involves actively inhibiting distractions rather than just passively tuning them out.
